@@ -23,21 +23,11 @@ contract('SupplyChain', function(accounts) {
 */
 
         const name = "book"
-
-        var event = supplyChain.ForSale()
-        await event.watch((err, res) => {
-          sku = res.args.sku.toString(10)
-          eventEmitted = true
-        })
-
-        await supplyChain.addItem(name, price, {from: alice})
-
-/*        const tx = await supplyChain.addItem(name, price, {from: alice})
-        if (tx.logs[0].event === "ForSale") {
-              sku = tx.logs[0].args.sku.toString(10)
-              eventEmitted = true
-        }
-*/
+	const tx = await supplyChain.addItem(name, price, {from: alice})
+	if (tx.logs[0].event === "ForSale") {
+		sku = tx.logs[0].args.sku.toString(10)
+		eventEmitted = true
+	}
 
         const result = await supplyChain.fetchItem.call(sku)
 
